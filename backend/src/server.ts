@@ -14,7 +14,6 @@ app.use('/api', scrapeRouter)
 
 app.use((req: Request, res: Response) => {
     res.status(404).json({error: 'Endpoint not found'})
-
 })
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`))
