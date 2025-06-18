@@ -1,7 +1,8 @@
 import type {Request, Response} from 'express'
 import fs from 'fs/promises'
 import type {Product} from '../types'
-import { NeweggScraper } from '../scrapers/newEggScraper'
+import { NeweggScraper } from '../scrapers/NeweggScraper'
+import {URL} from 'url'
 
 //Make sure that the obj is actually formatted as a Product (TypeScript type guard)
 function isProduct(obj:any):obj is Product {
@@ -11,14 +12,23 @@ function isProduct(obj:any):obj is Product {
 }
 
 //Controller for scraping
-export const scrapeController = async (req:Request, res:Response) => {
+export const scrapeController = async (req:Request, res:Response): Promise<void> => {
     try{
         const productURL = req.query.url
     
         if (!productURL || typeof productURL !== 'string') {
-            return res.status(400).json({error: 'Missing ProductURL or URL invalid'})
+            res.status(400).json({error: 'Missing ProductURL or URL invalid'})
+            return
         }
+        
+        const parsedURL = new URL(productURL)
+        const productId = parsedURL.searchParams.get('Item')
 
+        if (!productId) {
+            res.status(400).json({error: 'Missing Item ID in Product URL'})
+            return
+        }
+        
         const newEggScraper = new NeweggScraper()
         const productDataObj:Product = await newEggScraper.scrapeProduct(productURL)
         
@@ -26,6 +36,7 @@ export const scrapeController = async (req:Request, res:Response) => {
             res.status(500).json({error: 'Invalid product format'})
             return
         }
+        await newEggScraper.savePricePoint(productId, productDataObj.price)
         res.json(productDataObj)
     }
     catch (err) {
