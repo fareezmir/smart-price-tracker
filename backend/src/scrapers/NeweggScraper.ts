@@ -55,7 +55,8 @@ export class NeweggScraper implements ScraperInterface {
 
         }catch(err){
             console.log(err)
-            throw new Error('Could not save price point')
+            //throw new Error('Could not save price point')
+            throw err
         }
     }
 

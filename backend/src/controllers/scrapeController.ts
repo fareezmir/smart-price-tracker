@@ -21,15 +21,15 @@ export const scrapeController = async (req:Request, res:Response): Promise<void>
             return
         }
         
-        const parsedURL = new URL(productURL)
-        const productId = parsedURL.searchParams.get('Item')
+        const parsedURL: URL = new URL(productURL)
+        const productId: string | null = parsedURL.searchParams.get('Item')
 
         if (!productId) {
             res.status(400).json({error: 'Missing Item ID in Product URL'})
             return
         }
         
-        const newEggScraper = new NeweggScraper()
+        const newEggScraper: NeweggScraper = new NeweggScraper()
         const productDataObj:Product = await newEggScraper.scrapeProduct(productURL)
         
         if (!isProduct(productDataObj)) {
