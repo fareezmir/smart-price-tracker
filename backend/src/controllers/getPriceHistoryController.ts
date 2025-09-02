@@ -1,6 +1,5 @@
 import type {Request, Response} from 'express'
-import fs from 'fs/promises'
-import type {PriceHistory, Product} from '../types'
+import type {PriceHistory} from '../types'
 import { NeweggScraper } from '../scrapers/NeweggScraper'
 import {URL} from 'url'
 

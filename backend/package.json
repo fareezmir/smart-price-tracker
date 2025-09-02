@@ -6,7 +6,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --exec tsx src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "lint": "eslint src/**/*.ts",
+    "type-check": "tsc --noEmit"
   },
   "type": "module",
   "keywords": [],
@@ -16,6 +18,9 @@
   "devDependencies": {
     "@types/express": "^5.0.3",
     "@types/node": "^24.0.1",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "tsx": "^4.20.3",

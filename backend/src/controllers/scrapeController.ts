@@ -1,14 +1,14 @@
 import type {Request, Response} from 'express'
-import fs from 'fs/promises'
 import type {Product} from '../types'
 import { NeweggScraper } from '../scrapers/NeweggScraper'
 import {URL} from 'url'
 
 //Make sure that the obj is actually formatted as a Product (TypeScript type guard)
-function isProduct(obj:any):obj is Product {
-    return typeof obj.title === 'string'
-     && typeof obj.price === 'number' 
-     && typeof obj.currency === 'string'
+function isProduct(obj: unknown): obj is Product {
+    return typeof obj === 'object' && obj !== null &&
+     'title' in obj && typeof (obj as any).title === 'string' &&
+     'price' in obj && typeof (obj as any).price === 'number' && 
+     'currency' in obj && typeof (obj as any).currency === 'string'
 }
 
 //Controller for scraping
