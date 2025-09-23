@@ -6,6 +6,7 @@ type ButtonVariant = "primary" | "neutral" | "link"
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
     variant?: ButtonVariant
+    appearance?: 'solid' | 'gradient'
 }
 
 const VARIANTS: Record<ButtonVariant, string> = {
@@ -14,10 +15,28 @@ const VARIANTS: Record<ButtonVariant, string> = {
     link: "text-primaryPurple underline",
 }
 
-export function Button({ variant = "primary", className, type = "button", children, ...props }: ButtonProps) {
+export function Button({ variant = "primary", appearance = 'solid', className, type = "button", children, ...props }: ButtonProps) {
+    // Gradient appearance for primary: render layered backgrounds
+    if (appearance === 'gradient' && variant === 'primary') {
+        const classes = (className ? className + " " : "") + "group relative overflow-hidden"
+        return (
+            <button type={type} className={classes} {...props}>
+                {/* Base violet gradient */}
+                <span className="absolute inset-0 bg-gradient-to-b from-primaryPurpleLight via-primaryPurple to-primaryPurpleHover" />
+                {/* Subtle gloss */}
+                <span className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/10 to-transparent" />
+                {/* Content */}
+                <span className="relative z-10 flex items-center gap-3 text-onPrimaryPurple">{children}</span>
+                {/* Soft outer shadow */}
+                <span className="absolute inset-0 rounded-full shadow-xl shadow-primaryPurple/30 group-hover:shadow-primaryPurple/50 transition-shadow duration-300" />
+            </button>
+        )
+    }
+
+    // Solid appearance (default): color-only variant classes
     const classes = (VARIANTS[variant] || "") + (className ? " " + className : "")
     return (
-        <button className = {classes} type = {type} {...props} >{children}</button>
+        <button className={classes} type={type} {...props}>{children}</button>
     )
 
 }
