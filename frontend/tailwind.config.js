@@ -46,7 +46,6 @@ module.exports = {
         textSecondary: '#B5B9C3',
         textMuted: '#8A90A2',
 
-        // ---- Simple color-in-name aliases (literal, easy to recall) ----
         // Primary purple family
         primaryPurple: '#A78BFA',     // main
         primaryPurpleHover: '#8B5CF6',
@@ -67,8 +66,8 @@ module.exports = {
         borderSlate: '#1A1D24',
       },
       fontFamily: {
-        heading: ['var(--font-geist-sans)', 'Geist', 'system-ui', 'sans-serif'],
-        sans: ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
+        geist: ['var(--font-geist-sans)', 'Geist', 'system-ui', 'sans-serif'],
+        inter: ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         xl: '16px',
