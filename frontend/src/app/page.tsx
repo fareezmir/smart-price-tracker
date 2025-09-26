@@ -1,17 +1,18 @@
 
+"use client"
 import { Button } from "@/components/Button"
+import AnimatedBackground from "@/components/AnimatedBackground"
 
 
 export default function Home() {
   return (
     <main className="relative min-h-screen overflow-hidden text-textWhite">
-      {/* Background layers */}
-      <div className="absolute inset-0 bg-gradient-to-br from-surfaceBlack via-surfaceSlate to-surfaceJet" />
-      <div className="pointer-events-none absolute inset-0 bg-radial-spot opacity-70" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-white/2 via-transparent to-transparent" />
+      <AnimatedBackground speed={8} amplitude={12} />
 
       {/* Content */}
-      <div className="relative z-10 container py-16 space-x-4">
+      <div className="relative z-10 mx-auto container flex flex-col items-center justify-center text-center gap-4 md:gap-6 min-h-screen">
+        <h1 className="mx-auto max-w-3xl font-geist text-7xl font-bold text-center">DealSense</h1>
+        <h2 className="mx-auto max-w-3xl font-inter text-2xl text-center">Track anything. Get notified.</h2>
         <div className="relative inline-flex">
           {/* Subtle purple glow behind button */}
           <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-radial-spot opacity-60 blur-2xl" />
