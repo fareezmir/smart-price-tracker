@@ -1,13 +1,13 @@
 
 "use client"
 import { Button } from "@/components/Button"
-import AnimatedBackground from "@/components/AnimatedBackground"
+import AuroraBackground from "@/components/ui/aurora-background"
 
 
 export default function Home() {
   return (
     <main className="relative min-h-screen overflow-hidden text-textWhite">
-      <AnimatedBackground speed={8} amplitude={12} />
+      <AuroraBackground className="absolute inset-0" />
 
       {/* Content */}
       <div className="relative z-10 mx-auto container flex flex-col items-center justify-center text-center gap-4 md:gap-6 min-h-screen">

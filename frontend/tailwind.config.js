@@ -83,15 +83,7 @@ module.exports = {
         'radial-spot':
           'radial-gradient(1000px 600px at 50% -20%, rgba(167,139,250,0.12), transparent 60%)',
       },
-      animation: {
-        'fade-up': 'fadeUp 600ms ease forwards',
-      },
-      keyframes: {
-        fadeUp: {
-          '0%': { opacity: 0, transform: 'translateY(8px)' },
-          '100%': { opacity: 1, transform: 'translateY(0)' },
-        },
-      },
+      
     },
   },
   plugins: [],
