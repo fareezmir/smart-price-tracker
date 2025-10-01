@@ -1,13 +1,10 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
 
-type AuroraBackgroundProps = React.HTMLAttributes<HTMLDivElement> & {
-  showRadialGradient?: boolean
-}
+type AuroraBackgroundProps = React.HTMLAttributes<HTMLDivElement> 
 
 export function AuroraBackground({
   className,
-  showRadialGradient = true,
   children,
   ...props
 }: AuroraBackgroundProps) {
