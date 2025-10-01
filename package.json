@@ -1,7 +1,21 @@
 {
+  "name": "smart-price-tracker",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "set PATH=%PATH%;D:\\Node && cd backend && npm run dev",
+    "dev:frontend": "set PATH=%PATH%;D:\\Node && cd frontend && npm.cmd run dev",
+    "build": "cd frontend && set PATH=%PATH%;D:\\Node && npm.cmd run build",
+    "start": "cd backend && npm start",
+    "lint": "cd frontend && set PATH=%PATH%;D:\\Node && npm.cmd run lint",
+    "type-check": "cd frontend && set PATH=%PATH%;D:\\Node && npm.cmd run type-check"
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "nodemon": "^3.1.10"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }

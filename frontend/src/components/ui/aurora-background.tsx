@@ -14,11 +14,7 @@ export function AuroraBackground({
   return (
     <div
       className={cn(
-        // Base dark gradient fill
-        "relative isolate bg-gradient-to-br from-surfaceBlack via-surfaceSlate to-surfaceJet",
-        "before:content-[''] before:absolute before:inset-0 before:-z-10 before:bg-[radial-gradient(80%_60%_at_40%_20%,rgba(167,139,250,0.12),transparent_60%),radial-gradient(70%_55%_at_60%_70%,rgba(139,92,246,0.10),transparent_60%)]",
-        showRadialGradient &&
-          "after:content-[''] after:absolute after:inset-0 after:-z-10 after:bg-radial-spot",
+        "bg-[radial-gradient(80%_60%_at_35%_20%,rgba(167,139,250,0.08),transparent_60%),radial-gradient(70%_55%_at_70%_75%,rgba(139,92,246,0.06),transparent_60%),linear-gradient(to_bottom_right,#0B0C0F,#0F1115,#0A0B0E)]",
         className
       )}
       {...props}

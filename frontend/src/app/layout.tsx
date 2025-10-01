@@ -5,7 +5,7 @@ import { GeistSans } from 'geist/font/sans'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Smart Price Tracker',
+  title: 'DealSense',
   description: 'Track prices and find the best deals with AI-powered forecasting',
 }
 

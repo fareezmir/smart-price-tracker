@@ -1,3 +1,10 @@
 node_modules/
 .env
 .DS_Store
+**/.next/
+**/dist/
+**/build/
+**/coverage/
+**/.turbo/
+**/tsconfig.tsbuildinfo
+**/package-lock.json
