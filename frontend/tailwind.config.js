@@ -79,11 +79,11 @@ module.exports = {
         card: '0 12px 50px -20px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.04)',
         glow: '0 0 0 8px rgba(167,139,250,0.14), 0 12px 40px -12px rgba(167,139,250,0.45)',
       },
-      backgroundImage: {
-        'radial-spot':
-          'radial-gradient(1000px 600px at 50% -20%, rgba(167,139,250,0.12), transparent 60%)',
-      },
-      
+      backgroundImage: (theme) => ({
+        aurora: `radial-gradient(80% 60% at 35% 20%, rgba(167,139,250,0.08), transparent 60%),
+                radial-gradient(70% 55% at 70% 75%, rgba(139,92,246,0.06), transparent 60%),
+                linear-gradient(to bottom right, ${theme('colors.surfaceBlack')}, ${theme('colors.surfaceSlate')}, ${theme('colors.surfaceJet')})`,
+      })
     },
   },
   plugins: [],

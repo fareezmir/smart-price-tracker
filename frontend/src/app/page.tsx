@@ -1,16 +1,16 @@
 
 "use client"
-import { Button } from "@/components/Button"
+import { Button } from "@/components/ui/Button"
 import AuroraBackground from "@/components/ui/aurora-background"
 
 
 export default function Home() {
   return (
     <main className="relative min-h-screen overflow-hidden text-textWhite">
-      <AuroraBackground className="absolute inset-0" />
+      
 
       {/* Content */}
-      <div className="relative z-10 mx-auto container flex flex-col items-center justify-center text-center gap-4 md:gap-6 min-h-screen">
+      <div className="relative z-10 mx-auto container flex flex-col items-center justify-start text-center gap-4 md:gap-6 min-h-screen pt-48">
         <h1 className="mx-auto max-w-3xl font-geist text-7xl font-bold text-center">DealSense</h1>
         <h2 className="mx-auto max-w-3xl font-inter text-2xl text-center">Track anything. Get notified.</h2>
         <div className="relative inline-flex">

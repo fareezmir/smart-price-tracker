@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-type ButtonVariant = "primary" | "neutral" | "link"
+type ButtonVariant = "primary" | "neutral" | "link" 
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
     variant?: ButtonVariant
@@ -11,7 +11,7 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const VARIANTS: Record<ButtonVariant, string> = {
     primary: "bg-primaryPurple text-onPrimaryPurple",
-    neutral: "bg-surfaceSlate text-textWhite",
+    neutral: "py-2 px-3 rounded-lg",
     link: "text-primaryPurple underline",
 }
 

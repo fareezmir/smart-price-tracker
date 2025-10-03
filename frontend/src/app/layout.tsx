@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { GeistSans } from 'geist/font/sans'
-
+import AuroraBackground from '@/components/ui/aurora-background'
+import Navbar from '@/components/ui/Navbar'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -18,7 +19,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${GeistSans.variable}`}>
-      <body className="font-inter">{children}</body>
+      
+      <body className="font-inter min-h-screen text-textWhite bg-aurora bg-fixed">
+        <Navbar isAuthenticated={true} brandText='DealSense'/>
+        {children}
+      </body>
     </html>
   )
 }
