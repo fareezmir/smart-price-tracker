@@ -1,7 +1,6 @@
 
-"use client"
-import { HoverBorderGradient } from "@/components/ui/hover-border-gradient"
-
+"use client";
+import Button from "@/components/ui/Button";
 
 export default function Home() {
   return (
@@ -13,9 +12,9 @@ export default function Home() {
         <h1 className="mx-auto max-w-3xl font-geist text-7xl font-bold text-center">DealSense</h1>
         <h2 className="mx-auto max-w-3xl font-inter text-2xl text-center">Track anything. Get notified.</h2>
         <div className="relative inline-flex">
-          <HoverBorderGradient className="px-5 py-4 rounded-full font-bold text-base md:text-lg min-w-[200px] flex justify-center">
+          <Button variant ="hoverOutline" className="px-5 py-4 rounded-full font-bold text-base md:text-lg min-w-[200px] flex justify-center">
             Track Item
-          </HoverBorderGradient>
+          </Button>
         </div>
       </div>
     </main>

@@ -1,15 +1,14 @@
 import React from "react";
-import { Button } from "./Button"
-
+import Button from "./Button";
 
 type NavbarProps = {
-    isAuthenticated: boolean,
-    brandText : string, 
-    iconSrc?: string,
-    onLogin?: ()=>void,
-    onLogout?: ()=> void,
-    onTrackedItems?: () => void
-}
+    isAuthenticated: boolean;
+    brandText: string; 
+    iconSrc?: string;
+    onLogin?: () => void;
+    onLogout?: () => void;
+    onTrackedItems?: () => void;
+};
 
 
 
@@ -22,9 +21,9 @@ function Navbar({isAuthenticated, brandText, onLogin, onLogout, onTrackedItems, 
         unauthenticated: [
           { label: "Login", onClick: onLogin, hoverClass: "hover:bg-white/10 transition-colors" }
         ]
-    }
+    };
     
-    const currentLinks = isAuthenticated ? navbarLinks.authenticated : navbarLinks.unauthenticated
+    const currentLinks = isAuthenticated ? navbarLinks.authenticated : navbarLinks.unauthenticated;
     
     return (
         <div className = "sticky top-10 z-50 hw-screen flex justify-center items-center h-24">
@@ -44,7 +43,7 @@ function Navbar({isAuthenticated, brandText, onLogin, onLogout, onTrackedItems, 
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 export default Navbar;
