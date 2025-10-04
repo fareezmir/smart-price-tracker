@@ -26,7 +26,7 @@ function Navbar({isAuthenticated, brandText, onLogin, onLogout, onTrackedItems, 
     const currentLinks = isAuthenticated ? navbarLinks.authenticated : navbarLinks.unauthenticated;
     
     return (
-        <div className = "sticky top-10 z-50 hw-screen flex justify-center items-center h-24">
+        <div className = "sticky top-14 z-50 hw-screen flex justify-center items-center h-24">
             <div className = "flex gap-6 py-5 px-10 dark:bg-neutral-800/30 bg-white/30 backdrop-blur-md rounded-full">
                 <Button variant="neutral">{brandText}</Button>
                 <div className="flex gap-2">
