@@ -12,8 +12,6 @@ type NavbarProps = {
     onTrackedItems?: () => void;
 };
 
-
-
 function Navbar({isAuthenticated, brandText, onLogin, onLogout, onTrackedItems, iconSrc}: NavbarProps): React.JSX.Element {
     const navbarLinks = {
         authenticated: [
