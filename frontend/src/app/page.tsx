@@ -16,14 +16,15 @@ export default function Home() {
       
 
       {/* Content */}
-      <div className="relative z-10 mx-auto container flex flex-col items-center justify-start text-center gap-4 md:gap-6 min-h-screen pt-48">
-        <h1 className="mx-auto max-w-3xl font-geist text-7xl font-bold text-center">DealSense</h1>
-        <h2 className="mx-auto mb-10 max-w-3xl font-inter text-2xl text-center">Track anything. Get notified.</h2>
-        <div className="mb-8">
+      <div className="relative z-10 mx-auto container px-4 md:px-6 flex flex-col items-center justify-start text-center gap-4 md:gap-6 min-h-screen pt-32 md:pt-48">
+        <h1 className="mx-auto max-w-3xl font-geist text-5xl md:text-6xl lg:text-7xl font-bold text-center">DealSense</h1>
+        <h2 className="mx-auto mb-6 md:mb-10 max-w-3xl font-inter text-base md:text-xl lg:text-2xl text-center px-4">Track anything. Get notified.</h2>
+        <div className="mb-6 md:mb-8 w-full max-w-2xl mx-auto">
           <SearchBar 
             value = {link} 
             onChange = {(e) => setLink(e.target.value)}
             onSubmit={() => handleSearch(link)}
+            className="w-full"
           />
         </div>
         <div>
