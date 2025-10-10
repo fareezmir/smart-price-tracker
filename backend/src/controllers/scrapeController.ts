@@ -1,7 +1,7 @@
 import type {Request, Response} from 'express';
 import type {Product} from '../types';
-import {URL} from 'url';
 import { ScraperFactory } from '../factories/ScraperFactory';
+import { validateUrl } from '../utils/urlUtils';
 
 //Make sure that the obj is actually formatted as a Product (TypeScript type guard)
 function isProduct(obj: unknown): obj is Product {
@@ -14,16 +14,16 @@ function isProduct(obj: unknown): obj is Product {
 //Controller for scraping
 export const scrapeController = async (req:Request, res:Response): Promise<void> => {
     try{
-        const productURL = req.query.url;
+        const normalizedUrl = validateUrl(req.query.url);
     
-        if (!productURL || typeof productURL !== 'string') {
+        if (!normalizedUrl) {
             res.status(400).json({error: 'Missing ProductURL or URL invalid'});
             return;
         }
         
-        const scraper = ScraperFactory.getScraper(productURL);
-        const productId = ScraperFactory.extractProductId(productURL);
-        const productDataObj: Product = await scraper.scrapeProduct(productURL);
+        const scraper = ScraperFactory.getScraper(normalizedUrl);
+        const productId = ScraperFactory.extractProductId(normalizedUrl);
+        const productDataObj: Product = await scraper.scrapeProduct(normalizedUrl);
         
         if (!isProduct(productDataObj)) {
             res.status(500).json({error: 'Invalid product format'});

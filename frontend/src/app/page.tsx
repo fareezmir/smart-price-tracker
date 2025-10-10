@@ -2,10 +2,42 @@
 "use client";
 import Button from "@/components/ui/Button";
 import SearchBar from "@/components/ui/SearchBar";
-import { useState } from "react"
+import { useState, useEffect } from "react"
+
+import { verifyLink } from "../services/api"; 
+
+
+type ValidationResult = {
+  isValid: boolean;
+  retailer?: string;
+  productId?: string;
+  error?: string;
+} | null;
+
+
 
 export default function Home() {
   const [link, setLink] = useState("");
+  const [validation, setValidation] = useState<ValidationResult>(null);
+
+  useEffect(() => {
+     if (!link) return;
+
+     const timer = setTimeout(async () => {
+        try {
+          const data = await verifyLink(link);
+          setValidation(data)
+        } catch (error) {
+          setValidation({
+            isValid: false,
+            error: error instanceof Error ? error.message : "Unknown error"
+          });
+        }
+     }, 500);
+
+     return () => clearTimeout(timer);
+
+  }, [link])
 
   function handleSearch(link: string) {
      return console.log(link)
@@ -27,6 +59,14 @@ export default function Home() {
             className="w-full"
           />
         </div>
+        {validation && (
+          <p className={validation.isValid ? "text-green-400" : "text-red-400"}>
+            {validation.isValid 
+              ? `✓ Valid ${validation.retailer} product` 
+              : `✗ ${validation.error}`
+            }
+          </p>
+        )}
         <div>
           <Button 
             variant = "hoverOutline" className="px-5 py-4 rounded-full font-bold text-base md:text-lg min-w-[200px] flex justify-center"

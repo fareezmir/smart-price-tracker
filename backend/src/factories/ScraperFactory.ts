@@ -5,7 +5,7 @@ const SCRAPER_REGISTRY: Record <string, {
     createScraper: () => ScraperInterface,
     extractProductId: (url: string) => string;
 }> = {
-    'newegg.com': {
+    'newegg': {
         createScraper: () => new NeweggScraper(),
         extractProductId: (url: string) => new URL(url).searchParams.get('Item') || ''
     },

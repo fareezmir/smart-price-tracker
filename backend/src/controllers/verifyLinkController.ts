@@ -1,17 +1,18 @@
 import { Request, Response } from 'express';
 import { ScraperFactory } from '../factories/ScraperFactory';
+import { validateUrl } from '../utils/urlUtils';
 
 export const verifyLinkController = async (req: Request, res: Response): Promise<void> => {
    try {
-    const productUrl = req.query.url;
+    const normalizedUrl = validateUrl(req.query.url);
 
-    if (!productUrl || typeof(productUrl) !== 'string') {
-        res.status(400).json({isValid: false, error: 'Missing or Invalid URL'})
+    if (!normalizedUrl) {
+        res.status(400).json({isValid: false, error: 'Missing or Invalid URL'});
         return;
     }
 
-    const scraper = ScraperFactory.getScraper(productUrl);
-    const productId = ScraperFactory.extractProductId(productUrl);
+    const scraper = ScraperFactory.getScraper(normalizedUrl);
+    const productId = ScraperFactory.extractProductId(normalizedUrl);
     const retailerName = scraper.getRetailerName();
 
     res.json({
