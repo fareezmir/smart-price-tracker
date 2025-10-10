@@ -61,7 +61,7 @@ export class NeweggScraper implements ScraperInterface {
     }
 
     getRetailerName():string {
-        return 'NewEgg'
+        return 'Newegg'
     }
 
 }

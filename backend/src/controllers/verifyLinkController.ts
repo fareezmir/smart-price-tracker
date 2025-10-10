@@ -7,7 +7,7 @@ export const verifyLinkController = async (req: Request, res: Response): Promise
     const normalizedUrl = validateUrl(req.query.url);
 
     if (!normalizedUrl) {
-        res.status(400).json({isValid: false, error: 'Missing or Invalid URL'});
+        res.status(400).json({isValid: false, error: 'Invalid URL. Please paste a valid URL'});
         return;
     }
 
@@ -23,7 +23,14 @@ export const verifyLinkController = async (req: Request, res: Response): Promise
 
    } catch(err) {
         if (err instanceof Error) {
-            res.status(400).json({ isValid: false, error: err.message});
+            if (err.message.includes('Unsupported retailer')) {
+                res.status(200).json({
+                    isValid: false,
+                    error: 'This is a valid URL but it\'s currently not supported!'
+                });
+            } else {
+                res.status(400).json({ isValid: false, error: 'err.message'});
+            }
         } else {
             res.status(500).json({ isValid: false, error: 'An unknown error occured. Please try again.'});
         }

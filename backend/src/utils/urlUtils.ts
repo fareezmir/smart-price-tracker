@@ -1,4 +1,6 @@
 
+import { isUrl } from 'check-valid-url';
+
 export function normalizeUrl(url: string): string {
     if (!url.startsWith('http')) {
         return 'https://' + url;
@@ -13,10 +15,10 @@ export function validateUrl(url: unknown): string | null {
     
     const normalizedUrl = normalizeUrl(url);
     
-    try {
-        new URL(normalizedUrl);
+    // Use the proper URL validation library
+    if (isUrl(normalizedUrl)) {
         return normalizedUrl;
-    } catch {
-        return null;
     }
+    
+    return null;
 }

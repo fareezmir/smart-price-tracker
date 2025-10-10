@@ -4,7 +4,8 @@ export const verifyLink = async (url: string) => {
     const response = await fetch(`${API_BASE_URL}/verify-link?url=${encodeURIComponent(url)}`);
     
     if (!response.ok) {
-        throw new Error(`HTTP error: ${response.status}`)
+        const errorData = await response.json();
+        throw new Error(errorData.error)
     }
 
     return response.json();

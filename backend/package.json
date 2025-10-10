@@ -30,6 +30,7 @@
   "dependencies": {
     "@types/cheerio": "^0.22.35",
     "axios": "^1.10.0",
+    "check-valid-url": "^0.1.0",
     "cheerio": "^1.1.0",
     "cors": "^2.8.5",
     "express": "^5.1.0"
