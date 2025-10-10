@@ -1,33 +1,31 @@
-import type {Request, Response} from 'express'
-import type {PriceHistory} from '../types'
-import { NeweggScraper } from '../scrapers/NeweggScraper'
-import {URL} from 'url'
+import type {Request, Response} from 'express';
+import type {PriceHistory} from '../types';
+import { ScraperFactory } from '../factories/ScraperFactory';
+import { validateUrl } from '../utils/urlUtils';
 
 
 export const getPriceHistoryController = async (req:Request, res: Response): Promise<void> => {
     try {
-        const productURL = req.query.url
+        const normalizedUrl = validateUrl(req.query.url);
 
-        if (!productURL || typeof productURL !== 'string') {
-            res.status(400).json({error: 'Missing ProductURL or URL invalid'})
-            return
+        if (!normalizedUrl) {
+            res.status(400).json({error: 'Missing ProductURL or URL invalid'});
+            return;
         }
 
-        const parsedURL: URL = new URL(productURL)
-        const productId: string | null = parsedURL.searchParams.get('Item')
+        const scraper = ScraperFactory.getScraper(normalizedUrl);
+        const productId = ScraperFactory.extractProductId(normalizedUrl);
         
         if (!productId) {
-            res.status(400).json({error: 'Missing Item ID in Product URL'})
-            return
+            res.status(400).json({error: 'Missing Item ID in Product URL'});
+            return;
         }
 
-        const newEggScraper: NeweggScraper = new NeweggScraper() 
-        
-        const productHistory: PriceHistory = await newEggScraper.getProductHistory(productId) 
-        res.json(productHistory)
+        const productHistory: PriceHistory = await scraper.getProductHistory(productId); 
+        res.json(productHistory);
 
-    }catch(err) {
-        console.log(err)
-        res.status(404).json({error: "No history file exists."})
+    } catch(err) {
+        console.log(err);
+        res.status(404).json({error: "No history file exists."});
     }
 }
