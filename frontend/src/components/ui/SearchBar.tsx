@@ -20,7 +20,7 @@ function SearchBar({value, onChange, onSubmit, inputClassName, className, ...pro
           inputClassName,
           className
         )}>
-          <SearchIcon size={20} className="text-textGray mr-3 flex-shrink-0" />
+          <SearchIcon size={20} className="text-textGray m-3 flex-shrink-0" />
           <input
             {...props}
             value={value}
