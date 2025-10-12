@@ -4,7 +4,7 @@ import Button from "@/components/ui/Button";
 import SearchBar from "@/components/ui/SearchBar";
 
 import { useState, useEffect } from "react";
-import { verifyLink, scrapeProduct } from "../services/api";
+import { verifyLink, scrapeProduct, getTrackedProduct } from "../services/api";
 import type { VerifyLinkResponse, TrackedProduct } from "@smart-price-tracker/shared";
 
 type ValidationResult = VerifyLinkResponse | null;
@@ -48,10 +48,19 @@ export default function Home() {
      }
 
      setIsTracking(true);
+     setError(null);
+     setTrackedProduct(null);
      
      try {
-       const product = await scrapeProduct(link);
-       setTrackedProduct(product);
+        try {
+          // Show history if item exists
+          const cachedProduct = await getTrackedProduct(link);
+          setTrackedProduct(cachedProduct);
+        } catch {
+          // If item doesn't exist, then we scrape
+          const product = await scrapeProduct(link);
+          setTrackedProduct(product)
+        }
      } catch (err) {
        setError(err instanceof Error ? err.message : "Failed to track product.");
      } finally {
