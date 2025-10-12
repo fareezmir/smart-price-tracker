@@ -21,7 +21,10 @@ function Button({ variant = "unstyled", className, type = "button", children, ..
     // hoverOutline variant: compose HoverBorderGradient
     if (variant === 'hoverOutline') {
         return (
-            <HoverBorderGradient as={"button" as any} {...(props as any)} className={className}>
+            <HoverBorderGradient 
+                {...props}
+                className={`active:scale-95 active:opacity-80 transition-transform ${className || ''}`}
+            >
                 {children}
             </HoverBorderGradient>
         );
