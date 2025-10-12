@@ -102,18 +102,20 @@ export default function Home() {
                 : `✗ ${validation.error}`
               : ""}
           </p>
-  
-          <Button 
-            variant = "hoverOutline" className="px-5 py-4 rounded-full font-bold text-base md:text-lg min-w-[200px] flex justify-center"
-            onClick={() => handleTrackItem(link)}
-          >
-            {isTracking ? "Tracking..." : "Track Item"}
-          </Button>
+          
+          <div className="mt-4">
+            <Button 
+              variant = "hoverOutline" className="px-5 py-4 rounded-full font-bold text-base md:text-lg min-w-[200px] flex justify-center"
+              onClick={() => handleTrackItem(link)}
+            >
+              {isTracking ? "Tracking..." : "Track Item"}
+            </Button>
+          </div>
         </div>
       </section>
   
       {trackedProduct && (
-        <div className="mb-4 w-full max-w-2xl mx-auto">
+        <div className="mt-4 w-full max-w-2xl mx-auto">
           <ProductCard trackedProduct={trackedProduct} />
         </div>
       )}
