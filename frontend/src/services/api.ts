@@ -15,7 +15,7 @@ export const verifyLink = async (url: string): Promise<VerifyLinkResponse> => {
 };
 
 // Scrape product and start tracking it
-export const scrapeProduct = async (url: string): Promise<Product> => {
+export const scrapeProduct = async (url: string): Promise<TrackedProduct> => {
     const response = await fetch(`${API_BASE_URL}/scrape?url=${encodeURIComponent(url)}`);
     
     if (!response.ok) {

@@ -2,17 +2,22 @@
 "use client";
 import Button from "@/components/ui/Button";
 import SearchBar from "@/components/ui/SearchBar";
+
 import { useState, useEffect } from "react";
-import { verifyLink } from "../services/api";
-import type { VerifyLinkResponse } from "@smart-price-tracker/shared";
+import { verifyLink, scrapeProduct } from "../services/api";
+import type { VerifyLinkResponse, TrackedProduct } from "@smart-price-tracker/shared";
 
 type ValidationResult = VerifyLinkResponse | null;
 
 
-
 export default function Home() {
+  const [trackedProduct, setTrackedProduct] = useState<TrackedProduct | null>(null);
+  const [isTracking, setIsTracking] = useState<boolean>(false);
+
+
   const [link, setLink] = useState("");
   const [validation, setValidation] = useState<ValidationResult>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
      if (!link) {
@@ -36,8 +41,23 @@ export default function Home() {
 
   }, [link])
 
-  function handleSearch(link: string) {
-     return console.log(link)
+   async function handleTrackItem(link: string) {
+     if (!link || !validation?.isValid) {
+       setError(validation?.error || "Invalid Product URL.")
+       return;
+     }
+
+     setIsTracking(true);
+     
+     try {
+       const product = await scrapeProduct(link);
+       setTrackedProduct(product);
+     } catch (err) {
+       setError(err instanceof Error ? err.message : "Failed to track product.");
+     } finally {
+      setIsTracking(false);
+     }
+
   }
 
   return (
@@ -52,7 +72,7 @@ export default function Home() {
           <SearchBar 
             value = {link} 
             onChange = {(e) => setLink(e.target.value)}
-            onSubmit={() => handleSearch(link)}
+            onSubmit={() => handleTrackItem(link)}
             className="w-full"
           />
           {validation && (
@@ -67,7 +87,7 @@ export default function Home() {
         <div>
           <Button 
             variant = "hoverOutline" className="px-5 py-4 rounded-full font-bold text-base md:text-lg min-w-[200px] flex justify-center"
-            onClick={() => handleSearch(link)}
+            onClick={() => handleTrackItem(link)}
           >
             Track Item
           </Button>
