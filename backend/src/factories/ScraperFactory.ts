@@ -7,7 +7,18 @@ const SCRAPER_REGISTRY: Record <string, {
 }> = {
     'newegg': {
         createScraper: () => new NeweggScraper(),
-        extractProductId: (url: string) => new URL(url).searchParams.get('Item') || ''
+        extractProductId: (url: string) => {
+            const urlObj = new URL(url);
+            
+            // Try /p/ format first
+            const pathMatch = urlObj.pathname.match(/\/p\/([^\/\?]+)/);
+            if (pathMatch) {
+              return pathMatch[1];
+            }
+            
+            // Fallback to ?Item= format 
+            return urlObj.searchParams.get('Item') || '';
+          }
     },
     
 };
