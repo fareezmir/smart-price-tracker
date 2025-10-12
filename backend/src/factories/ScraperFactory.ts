@@ -1,5 +1,5 @@
-import { ScraperInterface } from "../interfaces/ScraperInterface";
-import { NeweggScraper } from "../scrapers/NeweggScraper";
+import { ScraperInterface } from '../interfaces/ScraperInterface';
+import { NeweggScraper } from '../scrapers/NeweggScraper';
 
 const SCRAPER_REGISTRY: Record <string, {
     createScraper: () => ScraperInterface,
@@ -10,7 +10,7 @@ const SCRAPER_REGISTRY: Record <string, {
         extractProductId: (url: string) => new URL(url).searchParams.get('Item') || ''
     },
     
-}
+};
 
 export class ScraperFactory {
     static getScraper(url: string): ScraperInterface {

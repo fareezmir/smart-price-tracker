@@ -1,5 +1,5 @@
 import type {Request, Response} from 'express';
-import type {PriceHistory} from '../types';
+import type {TrackedProduct} from '../types/product_type';
 import { ScraperFactory } from '../factories/ScraperFactory';
 import { validateUrl } from '../utils/urlUtils';
 
@@ -21,11 +21,11 @@ export const getPriceHistoryController = async (req:Request, res: Response): Pro
             return;
         }
 
-        const productHistory: PriceHistory = await scraper.getProductHistory(productId); 
-        res.json(productHistory);
+        const trackedProduct: TrackedProduct = await scraper.getTrackedProduct(productId); 
+        res.json(trackedProduct);
 
     } catch(err) {
         console.log(err);
-        res.status(404).json({error: "No history file exists."});
+        res.status(404).json({error: 'No history file exists.'});
     }
-}
+};

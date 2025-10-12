@@ -35,4 +35,4 @@ export const verifyLinkController = async (req: Request, res: Response): Promise
             res.status(500).json({ isValid: false, error: 'An unknown error occured. Please try again.'});
         }
    } 
-}
+};

@@ -1,9 +1,13 @@
-import {PriceHistory, Product} from '../types'
+import { TrackedProduct, Product } from '../types/product_type';
 
 
 export interface ScraperInterface {
-    scrapeProduct(url:string): Promise<Product>
-    getProductHistory(productId:string): Promise<PriceHistory>
-    getRetailerName():string
-    savePricePoint(productId: string, newPrice: number): Promise<void>
+    scrapeProduct(url:string): Promise<Product>;
+    getTrackedProduct(productId:string): Promise<TrackedProduct>;
+    getRetailerName():string;
+    trackProduct(
+        productId: string,
+        url: string,
+        product: Product,
+    ): Promise<void>;
 }

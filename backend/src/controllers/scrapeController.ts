@@ -1,5 +1,5 @@
 import type {Request, Response} from 'express';
-import type {Product} from '../types';
+import type {Product} from '../types/product_type';
 import { ScraperFactory } from '../factories/ScraperFactory';
 import { validateUrl } from '../utils/urlUtils';
 
@@ -8,7 +8,7 @@ function isProduct(obj: unknown): obj is Product {
     return typeof obj === 'object' && obj !== null &&
      'title' in obj && typeof (obj as any).title === 'string' &&
      'price' in obj && typeof (obj as any).price === 'number' && 
-     'currency' in obj && typeof (obj as any).currency === 'string'
+     'currency' in obj && typeof (obj as any).currency === 'string';
 }
 
 //Controller for scraping
@@ -29,7 +29,7 @@ export const scrapeController = async (req:Request, res:Response): Promise<void>
             res.status(500).json({error: 'Invalid product format'});
             return;
         }
-        await scraper.savePricePoint(productId, productDataObj.price);
+        await scraper.trackProduct(productId, normalizedUrl, productDataObj);
         res.json(productDataObj);
     }
     catch (err) {
@@ -37,4 +37,4 @@ export const scrapeController = async (req:Request, res:Response): Promise<void>
         res.status(500).json({error: 'Failed to load product data'});
     }
     
-}
+};
