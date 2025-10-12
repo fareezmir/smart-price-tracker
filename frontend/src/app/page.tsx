@@ -4,8 +4,9 @@ import Button from "@/components/ui/Button";
 import SearchBar from "@/components/ui/SearchBar";
 
 import { useState, useEffect } from "react";
-import { verifyLink, scrapeProduct, getTrackedProduct } from "../services/api";
+import { verifyLink, trackProduct } from "../services/api";
 import type { VerifyLinkResponse, TrackedProduct } from "@smart-price-tracker/shared";
+import ProductCard from "@/components/ui/ProductCard";
 
 type ValidationResult = VerifyLinkResponse | null;
 
@@ -52,15 +53,8 @@ export default function Home() {
      setTrackedProduct(null);
      
      try {
-        try {
-          // Show history if item exists
-          const cachedProduct = await getTrackedProduct(link);
-          setTrackedProduct(cachedProduct);
-        } catch {
-          // If item doesn't exist, then we scrape
-          const product = await scrapeProduct(link);
-          setTrackedProduct(product)
-        }
+        const product = await trackProduct(link);
+        setTrackedProduct(product);
      } catch (err) {
        setError(err instanceof Error ? err.message : "Failed to track product.");
      } finally {
@@ -92,13 +86,27 @@ export default function Home() {
               }
             </p>
           )}
+
+          {error && (
+            <p className="mt-4 text-sm text-left ml-8 text-red-400">
+              ✗ {error}
+            </p>
+          )}
+
+          {trackedProduct && (
+            <div className="mt-4">
+                <ProductCard trackedProduct={trackedProduct} />
+            </div>
+          )}
         </div>
         <div>
           <Button 
-            variant = "hoverOutline" className="px-5 py-4 rounded-full font-bold text-base md:text-lg min-w-[200px] flex justify-center"
+            variant = "hoverOutline" 
+            className="px-5 py-4 rounded-full font-bold text-base md:text-lg min-w-[200px] flex justify-center active:scale-95 active:opacity-80 transition-transform"
             onClick={() => handleTrackItem(link)}
+            disabled={isTracking || !validation?.isValid}
           >
-            Track Item
+            {isTracking ? "Tracking..." : "Track Item"}
           </Button>
         </div>
       </div>

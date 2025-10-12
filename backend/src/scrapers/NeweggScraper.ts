@@ -15,15 +15,16 @@ export class NeweggScraper implements ScraperInterface {
 
             const $ =  cheerio.load(html);
 
-            const title:string = $('h1.product-title').text();
-            const priceText:string = $('div.price-current').text().trim();
-            const price:number = parseFloat(priceText.replace(/[^0-9.]/g, ''));
+            const title: string = $('h1.product-title').text();
+            const priceText: string = $('div.price-current').text().trim();
+            const price: number = parseFloat(priceText.replace(/[^0-9.]/g, ''));
+            const imageUrl: string = $('img.product-view-img-original').attr('src') || '';
 
-            if (!title || isNaN(price)) {
-                throw new Error('Price or Title could not be found.');
+            if (!title || isNaN(price) || !imageUrl) {
+                throw new Error('Price, Image or Title could not be found.');
             }
 
-            return {title: title, price: price, currency:'CAD'}; 
+            return {title: title, price: price, currency:'CAD', imageUrl: imageUrl}; 
 
         }catch(err){
             console.log(err);
@@ -59,6 +60,7 @@ export class NeweggScraper implements ScraperInterface {
                 retailer: this.getRetailerName(),
                 currency: product.currency,
                 title: product.title,
+                imageUrl: product.imageUrl,
                 lastUpdated: new Date().toISOString(),
                 priceHistory: []
             };
@@ -72,7 +74,8 @@ export class NeweggScraper implements ScraperInterface {
         trackedProduct = {
             ...trackedProduct,
             lastUpdated: dateScraped,
-            title: product.title
+            title: product.title,
+            imageUrl: product.imageUrl
         };
 
         await fs.writeFile(filePath, JSON.stringify(trackedProduct, null, 2));

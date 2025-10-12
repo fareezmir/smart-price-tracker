@@ -9,6 +9,7 @@ const PORT = 8000;
 const app = express();
 
 app.use(cors());
+app.use(express.json());
 
 app.get('/', (req: Request, res: Response) => {
     res.json({message: 'Hello World'});

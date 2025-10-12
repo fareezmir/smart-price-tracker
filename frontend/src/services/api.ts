@@ -26,6 +26,22 @@ export const scrapeProduct = async (url: string): Promise<TrackedProduct> => {
     return response.json();
 };
 
+// Track product (handles cache-first logic internally)
+export const trackProduct = async (url: string): Promise<TrackedProduct> => {
+    const response = await fetch(`${API_BASE_URL}/track`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url })
+    });
+    
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to track product');
+    }
+
+    return response.json();
+};
+
 // Get tracked product with full price history
 export const getTrackedProduct = async (url: string): Promise<TrackedProduct> => {
     const response = await fetch(`${API_BASE_URL}/history?url=${encodeURIComponent(url)}`);

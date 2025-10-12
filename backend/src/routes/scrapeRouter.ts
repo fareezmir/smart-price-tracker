@@ -1,13 +1,16 @@
 import express from 'express';
 
 import { scrapeController } from '../controllers/scrapeController';
-import { getPriceHistoryController } from '../controllers/getPriceHistoryController';
+import { getUserProductsController } from '../controllers/getUserProductsController';
 import { verifyLinkController } from '../controllers/verifyLinkController';
+import { trackController } from '../controllers/trackController';
 
 export const scrapeRouter = express.Router();
 
 scrapeRouter.get('/scrape', scrapeController);
 
-scrapeRouter.get('/history', getPriceHistoryController);
+scrapeRouter.post('/track', trackController);
+
+scrapeRouter.get('/history', getUserProductsController);
 
 scrapeRouter.get('/verify-link', verifyLinkController);

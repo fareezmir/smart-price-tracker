@@ -4,7 +4,7 @@ import { ScraperFactory } from '../factories/ScraperFactory';
 import { validateUrl } from '../utils/urlUtils';
 
 
-export const getPriceHistoryController = async (req:Request, res: Response): Promise<void> => {
+export const getUserProductsController = async (req:Request, res: Response): Promise<void> => {
     try {
         const normalizedUrl = validateUrl(req.query.url);
 
@@ -22,7 +22,7 @@ export const getPriceHistoryController = async (req:Request, res: Response): Pro
         }
 
         const trackedProduct: TrackedProduct = await scraper.getTrackedProduct(productId); 
-        res.json(trackedProduct);
+        res.status(200).json(trackedProduct);
 
     } catch(err) {
         console.log(err);

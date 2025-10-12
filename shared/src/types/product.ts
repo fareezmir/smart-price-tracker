@@ -2,6 +2,7 @@ export type Product = {
     title: string;
     price: number;
     currency: string;
+    imageUrl: string;
 };
 
 export type PricePoint = {
@@ -15,6 +16,7 @@ export type TrackedProduct = {
     retailer: string;
     currency: string;
     title: string;
+    imageUrl: string;
     lastUpdated: string;
     priceHistory: PricePoint[];
 };
