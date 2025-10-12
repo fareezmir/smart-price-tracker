@@ -14,23 +14,24 @@ function isProduct(obj: unknown): obj is Product {
 //Controller for scraping
 export const scrapeController = async (req:Request, res:Response): Promise<void> => {
     try{
-        const normalizedUrl = validateUrl(req.query.url);
+        const formattedUrl = validateUrl(req.query.url);
     
-        if (!normalizedUrl) {
+        if (!formattedUrl) {
             res.status(400).json({error: 'Missing ProductURL or URL invalid'});
             return;
         }
         
-        const scraper = ScraperFactory.getScraper(normalizedUrl);
-        const productId = ScraperFactory.extractProductId(normalizedUrl);
-        const productDataObj: Product = await scraper.scrapeProduct(normalizedUrl);
+        const scraper = ScraperFactory.getScraper(formattedUrl);
+        const productId = ScraperFactory.extractProductId(formattedUrl);
+        const product: Product = await scraper.scrapeProduct(formattedUrl);
         
-        if (!isProduct(productDataObj)) {
+        if (!isProduct(product)) {
             res.status(500).json({error: 'Invalid product format'});
             return;
         }
-        await scraper.trackProduct(productId, normalizedUrl, productDataObj);
-        res.json(productDataObj);
+        await scraper.trackProduct(productId, formattedUrl, product);
+        const trackedProduct = await scraper.getTrackedProduct(productId);
+        res.json(trackedProduct);
     }
     catch (err) {
         console.error('READ ERROR:', err);

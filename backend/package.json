@@ -28,6 +28,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@smart-price-tracker/shared": "file:../shared",
     "@types/cheerio": "^0.22.35",
     "axios": "^1.10.0",
     "check-valid-url": "^0.1.0",

@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { GeistSans } from 'geist/font/sans';
-import AuroraBackground from '@/components/ui/aurora-background';
 import Navbar from '@/components/ui/Navbar';
 import './globals.css';
 

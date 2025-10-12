@@ -2,17 +2,11 @@
 "use client";
 import Button from "@/components/ui/Button";
 import SearchBar from "@/components/ui/SearchBar";
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
+import { verifyLink } from "../services/api";
+import type { VerifyLinkResponse } from "@smart-price-tracker/shared";
 
-import { verifyLink } from "../services/api"; 
-
-
-type ValidationResult = {
-  isValid: boolean;
-  retailer?: string;
-  productId?: string;
-  error?: string;
-} | null;
+type ValidationResult = VerifyLinkResponse | null;
 
 
 

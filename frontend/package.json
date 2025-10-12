@@ -11,6 +11,7 @@
     "check": "npm run type-check && npm run lint"
   },
   "dependencies": {
+    "@smart-price-tracker/shared": "file:../shared",
     "chart.js": "^4.4.0",
     "clsx": "^2.1.1",
     "geist": "^1.5.1",
