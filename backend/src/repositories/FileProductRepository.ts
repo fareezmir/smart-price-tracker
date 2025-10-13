@@ -1,4 +1,4 @@
-import { ProductRepositoryInterface } from "../interfaces/ProductRepositoryInterface";
+import { ProductRepositoryInterface } from '../interfaces/ProductRepositoryInterface';
 import { TrackedProduct } from '../types/product_type';
 import fs from 'fs/promises'
 import path from 'path'

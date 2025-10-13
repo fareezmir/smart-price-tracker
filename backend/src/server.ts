@@ -1,8 +1,9 @@
 import express from 'express';
 import { scrapeRouter } from './routes/scrapeRouter';
 import cors from 'cors';
-
 import type { Request, Response } from 'express';
+
+import { startPriceScraping } from './jobs/startPriceScraping';
 
 const PORT = 8000;
 
@@ -10,6 +11,9 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+
+startPriceScraping(); // start scraping when server runs
 
 app.get('/', (req: Request, res: Response) => {
     res.json({message: 'Hello World'});
