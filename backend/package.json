@@ -30,10 +30,12 @@
   "dependencies": {
     "@smart-price-tracker/shared": "file:../shared",
     "@types/cheerio": "^0.22.35",
+    "@types/node-cron": "^3.0.11",
     "axios": "^1.10.0",
     "check-valid-url": "^0.1.0",
     "cheerio": "^1.1.0",
     "cors": "^2.8.5",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "node-cron": "^4.2.1"
   }
 }
