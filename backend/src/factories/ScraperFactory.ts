@@ -1,5 +1,24 @@
 import { ScraperInterface } from '../interfaces/ScraperInterface';
 import { NeweggScraper } from '../scrapers/NeweggScraper';
+import { AmazonScraper } from '../scrapers/AmazonScraper';
+
+
+// Function used to find the product ID from the url of Newegg links
+const extractNeweggId = (url: string) => {
+    const urlObj = new URL(url);
+    const pathMatch = urlObj.pathname.match(/\/p\/([^\/\?]+)/);
+    if (pathMatch) {
+        return pathMatch[1];
+    }
+    return urlObj.searchParams.get('Item') || '';
+};
+
+const extractAmazonId = (url: string) => {
+    const urlObj = new URL(url);
+    const dpMatch = urlObj.pathname.match(/\/dp\/([A-Z0-9]{10})/);
+    return dpMatch ? dpMatch[1] : '';
+};
+
 
 const SCRAPER_REGISTRY: Record <string, {
     createScraper: () => ScraperInterface,
@@ -7,20 +26,12 @@ const SCRAPER_REGISTRY: Record <string, {
 }> = {
     'newegg': {
         createScraper: () => new NeweggScraper(),
-        extractProductId: (url: string) => {
-            const urlObj = new URL(url);
-            
-            // Try /p/ format first
-            const pathMatch = urlObj.pathname.match(/\/p\/([^\/\?]+)/);
-            if (pathMatch) {
-              return pathMatch[1];
-            }
-            
-            // Fallback to ?Item= format 
-            return urlObj.searchParams.get('Item') || '';
-          }
+        extractProductId: extractNeweggId
     },
-    
+    'amazon': {
+        createScraper: () => new AmazonScraper(),
+        extractProductId: extractAmazonId
+    }
 };
 
 export class ScraperFactory {

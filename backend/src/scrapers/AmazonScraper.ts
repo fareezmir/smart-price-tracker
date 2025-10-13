@@ -5,7 +5,7 @@ import axios from 'axios';
 import * as cheerio from 'cheerio';
 import fs from 'fs/promises';
 
-export class NeweggScraper implements ScraperInterface {
+export class AmazonScraper implements ScraperInterface {
 
     async scrapeProduct(url:string): Promise<Product> {
 
@@ -21,10 +21,13 @@ export class NeweggScraper implements ScraperInterface {
 
             const $ =  cheerio.load(html);
 
-            const title: string = $('h1.product-title').text();
-            const priceText: string = $('div.price-current').text().trim();
-            const price: number = parseFloat(priceText.replace(/[^0-9.]/g, ''));
-            const imageUrl: string = $('img.product-view-img-original').attr('src') || '';
+            const title: string = $('#productTitle').text().trim();
+
+            const priceWhole: string = $('.a-price-whole').text().trim();
+            const priceFraction: string = $('.a-price-fraction').text().trim();
+            const price: number = parseFloat(`${priceWhole}.${priceFraction}`);
+
+            const imageUrl: string = $('#landingImage').attr('src') || '';
 
             if (!title || isNaN(price) || !imageUrl) {
                 throw new Error('Price, Image or Title could not be found.');
@@ -89,7 +92,7 @@ export class NeweggScraper implements ScraperInterface {
     }
 
     getRetailerName():string {
-        return 'Newegg';
+        return 'Amazon';
     }
 
 }
