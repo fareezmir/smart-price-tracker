@@ -2,6 +2,7 @@ import type {Request, Response} from 'express';
 import type {TrackedProduct} from '../types/product_type';
 import { ScraperFactory } from '../factories/ScraperFactory';
 import { validateUrl } from '../utils/urlUtils';
+import { DatabaseProductRepository } from '../repositories/DatabaseProductRepository';
 
 
 export const getUserProductsController = async (req:Request, res: Response): Promise<void> => {
@@ -13,7 +14,8 @@ export const getUserProductsController = async (req:Request, res: Response): Pro
             return;
         }
 
-        const scraper = ScraperFactory.getScraper(normalizedUrl);
+        const productRepository = new DatabaseProductRepository();
+        const scraper = ScraperFactory.getScraper(normalizedUrl, productRepository);
         const productId = ScraperFactory.extractProductId(normalizedUrl);
         
         if (!productId) {

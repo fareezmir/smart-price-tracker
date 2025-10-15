@@ -1,6 +1,7 @@
 import { ScraperInterface } from '../interfaces/ScraperInterface';
 import { NeweggScraper } from '../scrapers/NeweggScraper';
 import { AmazonScraper } from '../scrapers/AmazonScraper';
+import { DatabaseProductRepository } from '../repositories/DatabaseProductRepository';
 
 
 // Function used to find the product ID from the url of Newegg links
@@ -21,27 +22,27 @@ const extractAmazonId = (url: string) => {
 
 
 const SCRAPER_REGISTRY: Record <string, {
-    createScraper: () => ScraperInterface,
+    createScraper: (repo: DatabaseProductRepository) => ScraperInterface,
     extractProductId: (url: string) => string;
 }> = {
     'newegg': {
-        createScraper: () => new NeweggScraper(),
+        createScraper: (repo: DatabaseProductRepository) => new NeweggScraper(repo),
         extractProductId: extractNeweggId
     },
     'amazon': {
-        createScraper: () => new AmazonScraper(),
+        createScraper: (repo: DatabaseProductRepository) => new AmazonScraper(repo),
         extractProductId: extractAmazonId
     }
 };
 
 export class ScraperFactory {
-    static getScraper(url: string): ScraperInterface {
+    static getScraper(url: string, productRepository: DatabaseProductRepository): ScraperInterface {
         const domain = new URL(url).hostname; // method already lowercases by default
 
         const available_scraper = Object.keys(SCRAPER_REGISTRY).find(key => domain.includes(key));
 
         if (available_scraper) {
-            return SCRAPER_REGISTRY[available_scraper].createScraper();
+            return SCRAPER_REGISTRY[available_scraper].createScraper(productRepository);
         }
 
         throw new Error(`Unsupported retailer ${domain}`);

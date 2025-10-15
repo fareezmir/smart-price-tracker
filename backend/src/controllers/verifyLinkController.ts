@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { ScraperFactory } from '../factories/ScraperFactory';
+import { DatabaseProductRepository } from '../repositories/DatabaseProductRepository';
 import { validateUrl } from '../utils/urlUtils';
 
 export const verifyLinkController = async (req: Request, res: Response): Promise<void> => {
@@ -11,7 +12,8 @@ export const verifyLinkController = async (req: Request, res: Response): Promise
         return;
     }
 
-    const scraper = ScraperFactory.getScraper(normalizedUrl);
+    const productRepository = new DatabaseProductRepository();
+    const scraper = ScraperFactory.getScraper(normalizedUrl, productRepository);
     const productId = ScraperFactory.extractProductId(normalizedUrl);
     const retailerName = scraper.getRetailerName();
 

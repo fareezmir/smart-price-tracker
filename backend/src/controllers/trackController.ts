@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express';
 import type { Product } from '../types/product_type';
 import { ScraperFactory } from '../factories/ScraperFactory';
+import { DatabaseProductRepository } from '../repositories/DatabaseProductRepository';
 import { validateUrl } from '../utils/urlUtils';
 
 function isProduct(obj: unknown): obj is Product {
@@ -26,7 +27,8 @@ export const trackController = async (req: Request, res: Response): Promise<void
             return;
         }
 
-        const scraper = ScraperFactory.getScraper(formattedUrl);
+        const productRepository = new DatabaseProductRepository();
+        const scraper = ScraperFactory.getScraper(formattedUrl, productRepository);
         const productId = ScraperFactory.extractProductId(formattedUrl);
 
         if (!productId) {

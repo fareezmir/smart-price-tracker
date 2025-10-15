@@ -1,8 +1,8 @@
-import { ProductRepositoryInterface } from "../interfaces/ProductRepositoryInterface";
+import { DatabaseProductRepository } from '../repositories/DatabaseProductRepository';
 import { ScraperFactory } from "../factories/ScraperFactory";
 
 export class ScheduledScraper {
-    constructor(private productRepository: ProductRepositoryInterface) {}
+    constructor(private productRepository: DatabaseProductRepository) {}
 
     async scrapeAllProducts(): Promise<void> {
         console.log('Starting scheduled scraping...');
@@ -12,7 +12,7 @@ export class ScheduledScraper {
             for (const product of products) {
                 try {
 
-                    const scraper = ScraperFactory.getScraper(product.url)
+                    const scraper = ScraperFactory.getScraper(product.url, this.productRepository)
                     const currentProduct = await scraper.scrapeProduct(product.url)
                     await scraper.trackProduct(product.productId, product.url, currentProduct)
                                         

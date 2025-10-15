@@ -1,9 +1,9 @@
 import cron from 'node-cron';
-import { FileProductRepository } from '../repositories/FileProductRepository';
+import { DatabaseProductRepository } from '../repositories/DatabaseProductRepository';
 import { ScheduledScraper } from '../services/scheduledScraper';
 
 export function startPriceScraping() {
-    const productRepository = new FileProductRepository();
+    const productRepository = new DatabaseProductRepository();
     const scheduledScraper = new ScheduledScraper(productRepository)
 
     // Scrapes product data every hour

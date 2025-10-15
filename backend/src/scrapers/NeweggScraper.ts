@@ -1,11 +1,14 @@
 import { TrackedProduct, PricePoint, Product } from '../types/product_type';
-import { ScraperInterface } from '../interfaces/ScraperInterface';
+import { BaseScraper } from './BaseScraper';
+import { DatabaseProductRepository } from '../repositories/DatabaseProductRepository';
 
 import axios from 'axios';
 import * as cheerio from 'cheerio';
-import fs from 'fs/promises';
 
-export class NeweggScraper implements ScraperInterface {
+export class NeweggScraper extends BaseScraper {
+    constructor(productRepository: DatabaseProductRepository) {
+        super(productRepository);
+    }
 
     async scrapeProduct(url:string): Promise<Product> {
 
@@ -41,52 +44,6 @@ export class NeweggScraper implements ScraperInterface {
 
     }
 
-    async getTrackedProduct(productId: string): Promise<TrackedProduct> {
-        try {
-            const filePath:string = `data/history/${productId}.json`;
-            const data:string = await fs.readFile(filePath, 'utf8');
-            return JSON.parse(data);
-        } catch (err) {
-            throw new Error(`No tracked product found for ${productId}`);
-        }
-    }
-
-    async trackProduct(productId: string, url: string, product: Product): Promise<void> {
-        const filePath: string = `data/history/${productId}.json`;
-        
-        let trackedProduct: TrackedProduct;
-        
-        try {
-            const productData: string = await fs.readFile(filePath, 'utf-8');
-            trackedProduct = JSON.parse(productData);
-        } catch(err){
-            // File not found, thus create a new trackedProduct
-            trackedProduct = {
-                productId: productId,
-                url: url,
-                retailer: this.getRetailerName(),
-                currency: product.currency,
-                title: product.title,
-                imageUrl: product.imageUrl,
-                lastUpdated: new Date().toISOString(),
-                priceHistory: []
-            };
-        }
-        
-        const dateScraped: string = new Date().toISOString();
-
-        const newPricePoint: PricePoint = {price: product.price, timestamp: dateScraped};
-        trackedProduct.priceHistory.push(newPricePoint);
-
-        trackedProduct = {
-            ...trackedProduct,
-            lastUpdated: dateScraped,
-            title: product.title,
-            imageUrl: product.imageUrl
-        };
-
-        await fs.writeFile(filePath, JSON.stringify(trackedProduct, null, 2));
-    }
 
     getRetailerName():string {
         return 'Newegg';
