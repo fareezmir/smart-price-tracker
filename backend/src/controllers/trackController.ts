@@ -6,10 +6,10 @@ import { validateUrl } from '../utils/urlUtils';
 
 function isProduct(obj: unknown): obj is Product {
     return typeof obj === 'object' && obj !== null &&
-     'title' in obj && typeof (obj as any).title === 'string' &&
-     'price' in obj && typeof (obj as any).price === 'number' && 
-     'currency' in obj && typeof (obj as any).currency === 'string' &&
-     'imageUrl' in obj && typeof (obj as any).imageUrl === 'string';
+     'title' in obj && typeof (obj as Record<string, unknown>).title === 'string' &&
+     'price' in obj && typeof (obj as Record<string, unknown>).price === 'number' && 
+     'currency' in obj && typeof (obj as Record<string, unknown>).currency === 'string' &&
+     'imageUrl' in obj && typeof (obj as Record<string, unknown>).imageUrl === 'string';
 }
 
 export const trackController = async (req: Request, res: Response): Promise<void> => {

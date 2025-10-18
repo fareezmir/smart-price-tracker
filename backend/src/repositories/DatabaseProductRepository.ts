@@ -33,8 +33,8 @@ export class DatabaseProductRepository implements ProductRepositoryInterface {
                     return {
                         price: typeof row.price === 'number' ? row.price : parseFloat(row.price),
                         timestamp: row.timestamp.toISOString()
-                    }
-                })
+                    };
+                });
 
                 // Create final trackedProduct object to push into trackedProducts
                 const trackedProduct: TrackedProduct = {
@@ -55,7 +55,7 @@ export class DatabaseProductRepository implements ProductRepositoryInterface {
 
            
         } catch (err) {
-            console.error('Error reading the database:', err)
+            console.error('Error reading the database:', err);
             return [];
         } finally {
             await client.end();
@@ -67,7 +67,7 @@ export class DatabaseProductRepository implements ProductRepositoryInterface {
         try {
             await client.connect();
 
-            const dateToday = new Date().toISOString();
+            // const dateToday = new Date().toISOString();
 
             const existingProduct = await client.query(
                 'SELECT product_id FROM products WHERE product_id = $1',

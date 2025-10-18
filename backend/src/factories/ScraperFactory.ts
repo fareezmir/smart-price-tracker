@@ -7,7 +7,7 @@ import { DatabaseProductRepository } from '../repositories/DatabaseProductReposi
 // Function used to find the product ID from the url of Newegg links
 const extractNeweggId = (url: string) => {
     const urlObj = new URL(url);
-    const pathMatch = urlObj.pathname.match(/\/p\/([^\/\?]+)/);
+    const pathMatch = urlObj.pathname.match(/\/p\/([^/?]+)/);
     if (pathMatch) {
         return pathMatch[1];
     }

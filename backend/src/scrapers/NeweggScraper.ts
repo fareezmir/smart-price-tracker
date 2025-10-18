@@ -1,4 +1,4 @@
-import { TrackedProduct, PricePoint, Product } from '../types/product_type';
+import { Product } from '../types/product_type';
 import { BaseScraper } from './BaseScraper';
 import { DatabaseProductRepository } from '../repositories/DatabaseProductRepository';
 
