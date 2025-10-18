@@ -16,3 +16,17 @@ CREATE TABLE price_history (
     price DECIMAL NOT NULL,
     timestamp TIMESTAMP NOT NULL
 );
+
+CREATE TABLE users (
+    id TEXT PRIMARY KEY,
+    email TEXT UNIQUE NOT NULL
+);
+
+CREATE TABLE user_products (
+    user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    product_id TEXT NOT NULL REFERENCES products(product_id) ON DELETE CASCADE,
+    date_added TIMESTAMP NOT NULL DEFAULT NOW(),
+    PRIMARY KEY (user_id, product_id)
+);
+
+CREATE INDEX idx_user_products_user_id ON user_products(user_id);
