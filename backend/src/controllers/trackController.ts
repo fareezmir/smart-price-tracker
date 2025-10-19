@@ -15,9 +15,11 @@ function isProduct(obj: unknown): obj is Product {
 export const trackController = async (req: Request, res: Response): Promise<void> => {
     try {
         const url = req.body.url;
+        const userId = req.body.userId;
+         
         
-        if (!url || typeof url !== 'string') {
-            res.status(400).json({ error: 'Missing or invalid URL' });
+        if (!url || typeof url !== 'string' ||!userId || typeof userId !== 'string') {
+            res.status(400).json({ error: 'Missing or invalid URL or userId' });
             return;
         }
 
@@ -38,6 +40,7 @@ export const trackController = async (req: Request, res: Response): Promise<void
 
         try {
             const existing = await scraper.getTrackedProduct(productId);
+            await productRepository.linkUserToProduct(userId, productId);
             res.json(existing);
         } catch {
             const product: Product = await scraper.scrapeProduct(formattedUrl);
@@ -49,6 +52,7 @@ export const trackController = async (req: Request, res: Response): Promise<void
 
             await scraper.trackProduct(productId, formattedUrl, product);
             const trackedProduct = await scraper.getTrackedProduct(productId);
+            await productRepository.linkUserToProduct(userId, productId);
             res.json(trackedProduct);
         }
 

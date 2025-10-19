@@ -102,4 +102,73 @@ export class DatabaseProductRepository implements ProductRepositoryInterface {
         }
     }
 
+    async linkUserToProduct(userId: string, productId: string): Promise<void> {
+        const client = this.createClient();
+        try {
+            await client.connect();
+
+            await client.query(
+                'INSERT INTO user_products (user_id, product_id) VALUES ($1, $2) ON CONFLICT DO NOTHING',
+                [userId, productId]
+            );
+        } catch (err) {
+            console.error('Error saving to database', err);
+            throw err;
+        } finally {
+            await client.end();
+        }
+    }
+
+    async getTrackedProductsByUser(userId : string): Promise<TrackedProduct[]> {
+        const client = this.createClient();
+        try {
+            await client.connect();
+
+            const userProducts = await client.query(`
+                SELECT p.* FROM products p 
+                JOIN user_products up ON p.product_id = up.product_id
+                WHERE up.user_id = $1
+            `, [userId])
+            
+            const trackedProducts: TrackedProduct[] = [];
+
+            for (const product of userProducts.rows) {
+                const priceHistoryDatabase = await client.query(
+                    'SELECT price, timestamp FROM price_history WHERE product_id = $1 ORDER BY timestamp',
+                    [product.product_id]
+                );
+                
+                 // Get price history for each of the products since products data table doesn't have them
+                const priceHistory = priceHistoryDatabase.rows.map(row => {
+                    return {
+                        price: typeof row.price === 'number' ? row.price : parseFloat(row.price),
+                        timestamp: row.timestamp.toISOString()
+                    };
+                });
+
+                // Create final trackedProduct object to push into trackedProducts
+                const trackedProduct: TrackedProduct = {
+                    productId: product.product_id,
+                    url: product.url,
+                    retailer: product.retailer,
+                    currency: product.currency,
+                    title: product.title,
+                    imageUrl: product.image_url,
+                    lastUpdated: product.last_updated,
+                    priceHistory: priceHistory
+                };
+
+                trackedProducts.push(trackedProduct);
+            }
+
+            return trackedProducts;
+            
+        } catch (err) {
+            console.error('Error reading the database:', err);
+            return [];
+        } finally {
+            await client.end();
+        }
+    }
+
 }
