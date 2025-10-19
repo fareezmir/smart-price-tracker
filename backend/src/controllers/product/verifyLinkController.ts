@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { ScraperFactory } from '../factories/ScraperFactory';
-import { DatabaseProductRepository } from '../repositories/DatabaseProductRepository';
-import { validateUrl } from '../utils/urlUtils';
+import { ScraperFactory } from '../../factories/ScraperFactory';
+import { DatabaseProductRepository } from '../../repositories/DatabaseProductRepository';
+import { validateUrl } from '../../utils/urlUtils';
 
 export const verifyLinkController = async (req: Request, res: Response): Promise<void> => {
    try {

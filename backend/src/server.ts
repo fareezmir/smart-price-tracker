@@ -1,5 +1,6 @@
 import express from 'express';
 import { scrapeRouter } from './routes/scrapeRouter';
+import { userRouter } from './routes/userRouter';
 import cors from 'cors';
 import type { Request, Response } from 'express';
 
@@ -20,6 +21,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/api', scrapeRouter);
+app.use('/api', userRouter); 
 
 app.use((req: Request, res: Response) => {
     res.status(404).json({error: 'Endpoint not found'});

@@ -1,8 +1,8 @@
 import type { Request, Response } from 'express';
-import type { Product } from '../types/product_type';
-import { ScraperFactory } from '../factories/ScraperFactory';
-import { DatabaseProductRepository } from '../repositories/DatabaseProductRepository';
-import { validateUrl } from '../utils/urlUtils';
+import type { Product } from '../../types/product_type';
+import { ScraperFactory } from '../../factories/ScraperFactory';
+import { DatabaseProductRepository } from '../../repositories/DatabaseProductRepository';
+import { validateUrl } from '../../utils/urlUtils';
 
 function isProduct(obj: unknown): obj is Product {
     return typeof obj === 'object' && obj !== null &&

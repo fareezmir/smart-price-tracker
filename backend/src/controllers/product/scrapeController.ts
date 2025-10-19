@@ -1,8 +1,8 @@
 import type {Request, Response} from 'express';
-import type {Product} from '../types/product_type';
-import { ScraperFactory } from '../factories/ScraperFactory';
-import { validateUrl } from '../utils/urlUtils';
-import { DatabaseProductRepository } from '../repositories/DatabaseProductRepository';
+import type {Product} from '../../types/product_type';
+import { ScraperFactory } from '../../factories/ScraperFactory';
+import { validateUrl } from '../../utils/urlUtils';
+import { DatabaseProductRepository } from '../../repositories/DatabaseProductRepository';
 
 //Make sure that the obj is actually formatted as a Product (TypeScript type guard)
 function isProduct(obj: unknown): obj is Product {
