@@ -27,11 +27,11 @@ export const scrapeProduct = async (url: string): Promise<TrackedProduct> => {
 };
 
 // Track product (handles cache-first logic internally)
-export const trackProduct = async (url: string): Promise<TrackedProduct> => {
+export const trackProduct = async (url: string, userId: string = 'demo-user-123'): Promise<TrackedProduct> => {
     const response = await fetch(`${API_BASE_URL}/track`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url })
+        body: JSON.stringify({ url, userId })
     });
     
     if (!response.ok) {
@@ -49,6 +49,18 @@ export const getTrackedProduct = async (url: string): Promise<TrackedProduct> =>
     if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || 'No history found for this product');
+    }
+
+    return response.json();
+};
+
+// Get all products for a user
+export const getUserProducts = async (userId: string = 'demo-user-123'): Promise<TrackedProduct[]> => {
+    const response = await fetch(`${API_BASE_URL}/users/${userId}/products`);
+    
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to fetch user products');
     }
 
     return response.json();
