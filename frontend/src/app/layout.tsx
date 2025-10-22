@@ -1,7 +1,8 @@
-import type { Metadata } from 'next';
+import type { Metadata } from "next";
 import { Inter } from 'next/font/google';
 import { GeistSans } from 'geist/font/sans';
 import Navbar from '@/components/ui/Navbar';
+import Providers from '@/components/Providers';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -20,8 +21,10 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${GeistSans.variable}`}>
       
       <body className="font-inter min-h-screen text-textWhite bg-aurora bg-fixed">
-        <Navbar isAuthenticated={true} brandText='DealSense'/>
-        {children}
+        <Providers>
+          <Navbar brandText='DealSense'/>
+          {children}
+        </Providers>
       </body>
     </html>
   );

@@ -1,4 +1,5 @@
 import type { Product, TrackedProduct, VerifyLinkResponse } from '@smart-price-tracker/shared';
+import { getSession } from "next-auth/react";
 
 const API_BASE_URL = 'http://localhost:8000/api';
 
@@ -27,7 +28,14 @@ export const scrapeProduct = async (url: string): Promise<TrackedProduct> => {
 };
 
 // Track product (handles cache-first logic internally)
-export const trackProduct = async (url: string, userId: string = 'demo-user-123'): Promise<TrackedProduct> => {
+export const trackProduct = async (url: string): Promise<TrackedProduct> => {
+    const session = await getSession();
+    const userId = session?.user?.id;
+
+    if (!session?.user?.id) {
+        throw new Error ('You must be logged in to track products');
+    }
+
     const response = await fetch(`${API_BASE_URL}/track`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -42,20 +50,16 @@ export const trackProduct = async (url: string, userId: string = 'demo-user-123'
     return response.json();
 };
 
-// Get tracked product with full price history
-export const getTrackedProduct = async (url: string): Promise<TrackedProduct> => {
-    const response = await fetch(`${API_BASE_URL}/history?url=${encodeURIComponent(url)}`);
-    
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'No history found for this product');
-    }
-
-    return response.json();
-};
 
 // Get all products for a user
-export const getUserProducts = async (userId: string = 'demo-user-123'): Promise<TrackedProduct[]> => {
+export const getUserProducts = async (): Promise<TrackedProduct[]> => {
+    const session = await getSession();
+    const userId = session?.user?.id;
+
+    if (!session?.user?.id) {
+        throw new Error('You must be logged in to view your products');
+    }
+    
     const response = await fetch(`${API_BASE_URL}/users/${userId}/products`);
     
     if (!response.ok) {

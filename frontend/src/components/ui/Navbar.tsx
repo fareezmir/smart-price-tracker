@@ -1,25 +1,31 @@
 "use client"
+import { useSession, signOut } from "next-auth/react";
+import { useRouter } from 'next/navigation';
 
 import React from "react";
 import Button from "./Button";
 
 type NavbarProps = {
-    isAuthenticated: boolean;
     brandText: string; 
     iconSrc?: string;
-    onLogin?: () => void;
-    onLogout?: () => void;
     onTrackedItems?: () => void;
 };
 
-function Navbar({isAuthenticated, brandText, onLogin, onLogout, onTrackedItems, iconSrc}: NavbarProps): React.JSX.Element {
+function Navbar({ brandText, onTrackedItems, iconSrc}: NavbarProps): React.JSX.Element {
+    
+    const { data: session, status } = useSession();
+    const router = useRouter();
+    const signIn = () => router.push("/auth/signin");
+    
+    const isAuthenticated = status === "authenticated";
+
     const navbarLinks = {
         authenticated: [
           { label: "Tracked Items", onClick: onTrackedItems, hoverClass: "hover:bg-white/10 transition-colors" },
-          { label: "Logout", onClick: onLogout, hoverClass: "hover:bg-white/10 transition-colors" }
+          { label: "Logout", onClick: () => signOut(), hoverClass: "hover:bg-white/10 transition-colors" }
         ],
         unauthenticated: [
-          { label: "Login", onClick: onLogin, hoverClass: "hover:bg-white/10 transition-colors" }
+          { label: "Login", onClick: () => signIn(), hoverClass: "hover:bg-white/10 transition-colors" }
         ]
     };
     

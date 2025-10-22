@@ -11,12 +11,14 @@
     "check": "npm run type-check && npm run lint"
   },
   "dependencies": {
+    "@auth/prisma-adapter": "^2.11.0",
     "@smart-price-tracker/shared": "file:../shared",
     "chart.js": "^4.4.0",
     "clsx": "^2.1.1",
     "geist": "^1.5.1",
     "motion": "^12.23.22",
     "next": "^15.5.4",
+    "next-auth": "^4.24.11",
     "react": "^19.1.1",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^19.1.1",
