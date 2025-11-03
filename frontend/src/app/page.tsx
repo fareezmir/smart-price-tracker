@@ -6,7 +6,7 @@ import SearchBar from "@/components/ui/SearchBar";
 import { useState, useEffect } from "react";
 import { verifyLink, trackProduct } from "../services/api";
 import type { VerifyLinkResponse, TrackedProduct } from "@smart-price-tracker/shared";
-import ProductCard from "@/components/ui/ProductCard";
+import Dashboard from "@/components/Dashboard";
 
 type ValidationResult = VerifyLinkResponse | null;
 
@@ -115,8 +115,8 @@ export default function Home() {
       </section>
   
       {trackedProduct && (
-        <div className="mt-4 w-full max-w-2xl mx-auto">
-          <ProductCard trackedProduct={trackedProduct} />
+        <div className="mt-8 w-full max-w-6xl mx-auto">
+          <Dashboard trackedProduct={trackedProduct} />
         </div>
       )}
     </div>
